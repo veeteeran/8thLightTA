@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ This app searches for books and constructs a reading list"""
 import json
+import os
 from requests import get
 from sys import exit
 
@@ -15,9 +16,10 @@ class ReadingList:
     '''Prompts user and returns user input'''
 
     print("Hello! Enter a book or author to start")
-    print("Or type the word 'list' to see your list")
+    print("Type the word 'list' to see your list")
+    print("Or type the word 'exit' leave")
     user_input = input()
-    if user_input == 'quit':
+    if user_input == 'exit':
       print('Bye. Enjoy your books!')
       exit(0)
     if user_input == 'list':
@@ -107,29 +109,48 @@ class ReadingList:
       print(f'* Item {user_input} saved to reading list! *')
       print('*********************************')
       to_add = books.pop(int(user_input) - 1)
-      self.reading_list.append(to_add)
       for count, book in enumerate(books, 1):
         self.print_book_info(book, count)
 
+      with open(self.__file_path, 'r') as read_file:
+        # if os.stat(self.__file_path).st_size != 0:
+        self.reading_list = json.load(read_file)
+
       with open(self.__file_path, 'w') as write_file:
-        json.dump(to_add, write_file)
+        self.reading_list.append(to_add)
+        json.dump(self.reading_list, write_file)
+
 
     return True
 
   def show_list(self):
     with open(self.__file_path, 'r') as read_file:
-      books = json.load(read_file)
-      print("Here's your list!")
-      self.print_book_info(books)
+      try:
+        books = json.load(read_file)
+        print("Here's your list!")
+        for count, book in enumerate(books, 1):
+          self.print_book_info(book, count)
+      except json.decoder.JSONDecodeError as e:
+        print('Your list is empty\n')
+      # if os.stat(self.__file_path).st_size != 0:
+      #   books = load(read_file)
+      #   print("Here's your list!")
+      #   for count, book in enumerate(books, 1):
+      #     self.print_book_info(book, count)
+      # else:
+      #   print('Your list is empty\n')
 
   def run_app(self):
-    while true:
+    app_running = True
+    while app_running:
       user_input = self.get_input()
       if user_input != 'list':
         books = self.get_books(user_input)
         is_selecting = self.save_to_list(books)
         while is_selecting:
           is_selecting = self.save_to_list(books)
+
+      app_running = True
 
 if __name__ == "__main__":
   rl = ReadingList()

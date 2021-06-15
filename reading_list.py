@@ -112,9 +112,9 @@ class ReadingList:
       for count, book in enumerate(books, 1):
         self.print_book_info(book, count)
 
-      with open(self.__file_path, 'r') as read_file:
-        # if os.stat(self.__file_path).st_size != 0:
-        self.reading_list = json.load(read_file)
+      if os.stat(self.__file_path).st_size != 0:
+        with open(self.__file_path, 'r') as read_file:
+            self.reading_list = json.load(read_file)
 
       with open(self.__file_path, 'w') as write_file:
         self.reading_list.append(to_add)
@@ -124,6 +124,7 @@ class ReadingList:
     return True
 
   def show_list(self):
+    """Prints reading_list"""
     with open(self.__file_path, 'r') as read_file:
       try:
         books = json.load(read_file)
@@ -132,15 +133,9 @@ class ReadingList:
           self.print_book_info(book, count)
       except json.decoder.JSONDecodeError as e:
         print('Your list is empty\n')
-      # if os.stat(self.__file_path).st_size != 0:
-      #   books = load(read_file)
-      #   print("Here's your list!")
-      #   for count, book in enumerate(books, 1):
-      #     self.print_book_info(book, count)
-      # else:
-      #   print('Your list is empty\n')
 
   def run_app(self):
+    """Runs ReadingList app"""
     app_running = True
     while app_running:
       user_input = self.get_input()

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """ This app searches for books and constructs a reading list"""
+import json
 from requests import get
 from sys import exit
 
@@ -8,19 +9,25 @@ class ReadingList:
     Contains attributes and methods to run reading list application
   '''
   reading_list = []
+  __file_path = 'reading_list.json'
 
   def get_input(self):
     '''Prompts user and returns user input'''
 
-    print("Hello! Type in a book or author to start: ")
+    print("Hello! Enter a book or author to start")
+    print("Or type the word 'list' to see your list")
     user_input = input()
     if user_input == 'quit':
+      print('Bye. Enjoy your books!')
       exit(0)
+    if user_input == 'list':
+      self.show_list()
+      return user_input
 
     print(f'Searching for {user_input}...')
     return user_input
 
-  def print_book_info(self, book, count):
+  def print_book_info(self, book, count = 1):
     """Prints user search to screen"""
     if len(book.get('authors')) > 1:
       separator = ', '
@@ -91,7 +98,7 @@ class ReadingList:
     if user_input in to_quit:
       return False
 
-    valid_input = [1, 2, 3, 4, 5] # this needs to be refactored
+    valid_input = [count for count, book in enumerate(books, 1)]
     if int(user_input) not in valid_input:
       print(f'{user_input} is not in the list.')
       print('Please make another selection.')
@@ -104,14 +111,25 @@ class ReadingList:
       for count, book in enumerate(books, 1):
         self.print_book_info(book, count)
 
+      with open(self.__file_path, 'w') as write_file:
+        json.dump(to_add, write_file)
+
     return True
 
+  def show_list(self):
+    with open(self.__file_path, 'r') as read_file:
+      books = json.load(read_file)
+      print("Here's your list!")
+      self.print_book_info(books)
+
   def run_app(self):
-    terms = self.get_input()
-    books = self.get_books(terms)
-    is_selecting = self.save_to_list(books)
-    while is_selecting:
-      is_selecting = self.save_to_list(books)
+    while true:
+      user_input = self.get_input()
+      if user_input != 'list':
+        books = self.get_books(user_input)
+        is_selecting = self.save_to_list(books)
+        while is_selecting:
+          is_selecting = self.save_to_list(books)
 
 if __name__ == "__main__":
   rl = ReadingList()

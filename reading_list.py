@@ -187,24 +187,31 @@ class ReadingList:
       return False
 
     valid_input = [count for count, book in enumerate(books, 1)]
-    if int(user_input) not in valid_input:
-      print(f'\n{user_input} is not in the list.')
-      print('Please make another selection.\n')
-    else:
-      print('\n*********************************')
-      print(f'* Item {user_input} saved to reading list! *')
-      print('*********************************\n')
-      to_add = books.pop(int(user_input) - 1)
+    try:
+      if int(user_input) not in valid_input:
+        print(f'\n{user_input} is not in the list.')
+        print('Please make another selection.\n')
+        for count, book in enumerate(books, 1):
+          self.print_book_info(book, count)
+      else:
+        print('\n*********************************')
+        print(f'* Item {user_input} saved to reading list! *')
+        print('*********************************\n')
+        to_add = books.pop(int(user_input) - 1)
+        for count, book in enumerate(books, 1):
+          self.print_book_info(book, count)
+
+        if os.stat(self.__file_path).st_size != 0:
+          with open(self.__file_path, 'r') as read_file:
+              self.reading_list = json.load(read_file)
+
+        with open(self.__file_path, 'w') as write_file:
+          self.reading_list.append(to_add)
+          json.dump(self.reading_list, write_file)
+    except ValueError:
+      print(f'\n{user_input} is not a number\n')
       for count, book in enumerate(books, 1):
         self.print_book_info(book, count)
-
-      if os.stat(self.__file_path).st_size != 0:
-        with open(self.__file_path, 'r') as read_file:
-            self.reading_list = json.load(read_file)
-
-      with open(self.__file_path, 'w') as write_file:
-        self.reading_list.append(to_add)
-        json.dump(self.reading_list, write_file)
 
     return True
 

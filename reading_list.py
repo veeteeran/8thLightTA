@@ -48,7 +48,17 @@ class ReadingList:
   __file_path = 'reading_list.json'
 
   def get_input(self):
-    """Prompts user and returns user input"""
+    """
+    Prompts user and returns user input
+    
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    None
+    """
 
     print("\nHello! Enter a book or author to start")
     print("Type the word 'list' to see your reading list")
@@ -66,18 +76,35 @@ class ReadingList:
     return user_input
 
   def print_book_info(self, book, count = 1):
-    """Prints user search to screen"""
+    """
+    Prints user search to screen
+    
+    Parameters
+    ----------
+    None
 
-    if len(book.get('authors')) > 1:
+    Returns
+    -------
+    None
+    """
+
+    print(f"{count }. ", end='')
+
+    if not book.get('authors'):
+      print('None', end = ', ')
+    elif len(book.get('authors')) > 1:
       separator = ', '
-      print(f"{count }. {separator.join(book.get('authors'))}", end = ', ')
+      print(f"{separator.join(book.get('authors'))}", end = ', ')
     else:
-      print(f"{count }. {book.get('authors')[0]}", end = ', ')
+      print(f"{book.get('authors')[0]}", end = ', ')
+
     print(book.get('title'), end = ', ')
     print(book.get('publisher'))
 
   def get_books(self, search_terms):
     """
+    Gets a list of five books based on user search
+
     Parameters
     ----------
     search_terms : str
@@ -122,7 +149,17 @@ class ReadingList:
     return books
 
   def save_books_prompt(self):
-    """Prompts user to save book or exit from book search"""
+    """
+    Prompts user to save book or exit from book search
+    
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    None
+    """
 
     print('\nPress a number and enter to save a book to your reading list')
     print('Or press "q" and enter to exit\n')
@@ -138,7 +175,7 @@ class ReadingList:
 
     Returns
     -------
-    True is user is selecting a book, False when finished
+    True if user is selecting a book, False when finished
     """
 
     self.save_books_prompt()
@@ -172,7 +209,17 @@ class ReadingList:
     return True
 
   def show_list(self):
-    """Prints reading_list"""
+    """
+    Prints reading_list
+    
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    None
+    """
 
     with open(self.__file_path, 'r') as read_file:
       try:
@@ -184,18 +231,25 @@ class ReadingList:
         print('\nYour list is empty\n')
 
   def run_app(self):
-    """Runs ReadingList app"""
+    """
+    Runs ReadingList app
     
-    app_running = True
-    while app_running:
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    None
+    """
+
+    while True:
       user_input = self.get_input()
       if user_input != 'list':
         books = self.get_books(user_input)
         is_selecting = self.save_to_list(books)
         while is_selecting:
           is_selecting = self.save_to_list(books)
-
-      app_running = True
 
 if __name__ == "__main__":
   rl = ReadingList()

@@ -30,6 +30,8 @@ Even if you exit the application your reading list will be available to you when
 
 🐞 Feel free to report any bugs you find.
 
+Run tests with the following command `python3 -m unittest test_reading_list.py`
+
 📖 Enjoy your books! 📖
 
 ## Author ✏️

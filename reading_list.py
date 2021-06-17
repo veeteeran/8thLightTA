@@ -57,7 +57,7 @@ class ReadingList:
 
     Returns
     -------
-    None
+    user_input : str - search string entered from command line
     """
 
     print("\nHello! Enter a book or author to start")
@@ -75,7 +75,7 @@ class ReadingList:
     print(f'\nSearching for {user_input}...\n')
     return user_input
 
-  def print_book_info(self, book, count = 1):
+  def print_book_info(self, book, count=1):
     """
     Prints user search to screen
     
@@ -88,17 +88,17 @@ class ReadingList:
     None
     """
 
-    print(f"{count }. ", end='')
+    print(f"{count}. ", end='')
 
     if not book.get('authors'):
       print('None', end = ', ')
     elif len(book.get('authors')) > 1:
       separator = ', '
-      print(f"{separator.join(book.get('authors'))}", end = ', ')
+      print(f"{separator.join(book.get('authors'))}", end=', ')
     else:
-      print(f"{book.get('authors')[0]}", end = ', ')
+      print(f"{book.get('authors')[0]}", end=', ')
 
-    print(book.get('title'), end = ', ')
+    print(book.get('title'), end=', ')
     print(book.get('publisher'))
 
   def get_books(self, search_terms):
@@ -128,10 +128,10 @@ class ReadingList:
       print('\nAn error has occurred.\n')
 
     items = response.json().get('items')
-    
+    print(f"ITEMS: {items}")
     if not items:
       print(f'\nSorry, nothing found for {search_terms}\n')
-      return
+      return books
     
     for count, item in enumerate(items, 1):
       my_dict = {}
@@ -254,9 +254,10 @@ class ReadingList:
       user_input = self.get_input()
       if user_input != 'list':
         books = self.get_books(user_input)
-        is_selecting = self.save_to_list(books)
-        while is_selecting:
+        if books != []:
           is_selecting = self.save_to_list(books)
+          while is_selecting:
+            is_selecting = self.save_to_list(books)
 
 if __name__ == "__main__":
   rl = ReadingList()

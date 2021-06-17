@@ -1,7 +1,7 @@
 # 8thLightTA
 
 ## What is this project?
-This a command line application that allows you to search for books and construct a reading list. It is written using python version 3.6 or newer.
+This a command line application that allows you to search for books and construct a reading list. The application must be run on python version 3.6 or newer.
 
 ## How does it work?
 * From GitHub click the green code button

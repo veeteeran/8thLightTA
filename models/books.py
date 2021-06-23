@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" This class searches fpr books using Google Books API"""
+""" This class searches for books using Google Books API"""
 
 import json
 import os
@@ -8,7 +8,29 @@ from requests import get
 class Books:
   """
     Contains attributes and methods for BooksAPI class
+
+    ...
+
+    Class Variables
+    ----------
+    books : list
+        A list dictionaries containing book data
+
+    Methods
+    -------
+    get_books(search_terms):
+      Return a list of book data in dictionary form
+
+    call_api(search_terms):
+      Returns a response object from call to Google books API
+
+    print_book_info(book, count = 1):
+      Prints author, title, and publisher of a book
+
+    show_search_results(self, response):
+      Prints search results to the console
   """
+  
   books = []
 
   def get_books(self, search_terms):
@@ -28,11 +50,23 @@ class Books:
 
     response = self.call_api(search_terms)
 
-    books = self.show_search_results(response)
-  
+    self.show_search_results(response)
+
     return self.books
 
   def call_api(self, search_terms):
+    """
+    Calls Google books API
+
+    Parameters
+    ----------
+    search_terms : string
+        user input search string
+
+    Returns
+    -------
+    response object
+    """
     url = 'https://www.googleapis.com/books/v1/volumes?q='
 
     max_results = '&maxResults=5'
@@ -73,6 +107,18 @@ class Books:
     print(book.get('publisher'))
 
   def show_search_results(self, response):
+    """
+      Displays search results from API call
+
+      Parameters
+      ----------
+      response : dictionary
+          response object returned from call to API
+
+      Returns
+      -------
+      None
+    """
     items = response.json().get('items')
     if not items:
       print(f'\nSorry, nothing found for {search_terms}\n')

@@ -1,11 +1,31 @@
 #!/usr/bin/env python3
 """ This app searches for books and constructs a reading list"""
-
+from utils import get_books, greet
 import json
 import os
 from requests import get
-from sys import exit
 
+'''
+  ReadList responsibilities:
+  - gets user input
+    - prompts user
+    - returns user input
+  - print each book in the reponse object
+    - prints (book) volume_info
+  - http request
+    - ping API
+    - Validate response
+    - returns a list of dictionaries
+  - prompts user
+    - save_books_prompt
+  - saves_to_list
+    - prompts user to save
+    - validate input
+    - write to file
+  - shows_list
+    - print reading list
+'''
+  
 class ReadingList:
   """
     Contains attributes and methods to run reading list application
@@ -21,6 +41,7 @@ class ReadingList:
 
     Methods
     -------
+    *** get_input and get_books, print_book_info and save_books_prompt class ***
     get_input():
       Prompts user and returns user input
 
@@ -34,6 +55,7 @@ class ReadingList:
     save_books_prompt():
       Prompts user to save book or exit from book search
 
+    *** save_to_list and show_list could be class List ***
     save_to_list(books):
       Saves books to reading_list
 
@@ -60,9 +82,10 @@ class ReadingList:
     user_input : str - search string entered from command line
     """
 
-    print("\nHello! Enter a book or author to start")
-    print("Type the word 'list' to see your reading list")
-    print("Or type the word 'exit' to leave\n")
+    # print("\nHello! Enter a book or author to start")
+    # print("Type the word 'list' to see your reading list")
+    # print("Or type the word 'exit' to leave\n")
+    greet()
 
     user_input = input()
     if user_input == 'exit':
@@ -81,7 +104,11 @@ class ReadingList:
     
     Parameters
     ----------
-    None
+    book : dictionary
+        volumeInfo passed in from the response object
+    
+    count : int
+        number to print in front of book
 
     Returns
     -------
@@ -123,15 +150,15 @@ class ReadingList:
     max_results = '&maxResults=5'
 
     response = get(url + search_terms + max_results)
-
+    # print(response.text)
     if not response:
       print('\nAn error has occurred.\n')
 
     items = response.json().get('items')
-    print(f"ITEMS: {items}")
+    # print(f"ITEMS: {items}")
     if not items:
       print(f'\nSorry, nothing found for {search_terms}\n')
-      return books
+      return
     
     for count, item in enumerate(items, 1):
       my_dict = {}
@@ -145,7 +172,7 @@ class ReadingList:
       }
 
       books.append(my_dict)
-
+    # print(books)
     return books
 
   def save_books_prompt(self):
@@ -254,6 +281,7 @@ class ReadingList:
       user_input = self.get_input()
       if user_input != 'list':
         books = self.get_books(user_input)
+        # books = get_books(user_input)
         if books != []:
           is_selecting = self.save_to_list(books)
           while is_selecting:

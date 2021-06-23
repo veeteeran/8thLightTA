@@ -7,7 +7,7 @@ from requests import get
 
 class Books:
   """
-    Contains attributes and methods for BooksAPI class
+    Contains attributes and methods for Books class
 
     ...
 
@@ -30,7 +30,7 @@ class Books:
     show_search_results(self, response):
       Prints search results to the console
   """
-  
+
   books = []
 
   def get_books(self, search_terms):
@@ -47,10 +47,9 @@ class Books:
       List of five dictionary items and prints to screen
       author, title, and publisher
     """
-
-    response = self.call_api(search_terms)
-
-    self.show_search_results(response)
+    if search_terms:
+      response = self.call_api(search_terms)
+      self.show_search_results(response)
 
     return self.books
 

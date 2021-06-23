@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ This class searches fpr books using Google Books API"""
 
-# import json
+import json
 import os
 from requests import get
 
@@ -9,6 +9,8 @@ class Books:
   """
     Contains attributes and methods for BooksAPI class
   """
+  books = []
+
   def get_books(self, search_terms):
     """
     Gets a list of five books based on user search
@@ -24,13 +26,11 @@ class Books:
       author, title, and publisher
     """
 
-    books = []
-
     response = self.call_api(search_terms)
 
     books = self.show_search_results(response)
   
-    return books
+    return self.books
 
   def call_api(self, search_terms):
     url = 'https://www.googleapis.com/books/v1/volumes?q='
@@ -73,8 +73,6 @@ class Books:
     print(book.get('publisher'))
 
   def show_search_results(self, response):
-    books = []
-
     items = response.json().get('items')
     if not items:
       print(f'\nSorry, nothing found for {search_terms}\n')
@@ -91,6 +89,5 @@ class Books:
         'publisher': volume_info.get('publisher')
       }
 
-      books.append(my_dict)
+      self.books.append(my_dict)
     
-    return books

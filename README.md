@@ -1,7 +1,12 @@
 # 8th Light Technical Assessment
 
 ## What is this project?
-This a command line application that allows you to search for books and construct a reading list. The application must be run on python version 3.6 or newer.
+This a command line application that allows you to search for books and construct a reading list. The application must be run on Python version 3.6 or newer.
+
+## Dependencies
+Install the `requests` module with the following command `python3 -m pip install requests`
+
+More information on installation and documentation of the `requests` module can be found [here](https://pypi.org/project/requests/)
 
 ## How does it work?
 * From GitHub click the green code button
@@ -30,9 +35,15 @@ Even if you exit the application your reading list will be available to you when
 
 🐞 Feel free to report any bugs you find.
 
-Run tests with the following command `python3 -m unittest test_reading_list.py`
-
 📖 Enjoy your books! 📖
+
+## Running Tests
+
+Install the `parameterized` module using `pip3 install parameterized`
+
+More information and documentation on `paramterized` can be found [here](https://pypi.org/project/parameterized/)
+
+Run tests with the following command `python3 -m unittest test_reading_list.py`
 
 ## Author ✏️
 * **Viet Tran** - [veeteeran](https://github.com/veeteeran)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ This class constructs a reading list using the Books class"""
 
-from models.books import Books 
+from books import Books 
 import json
 import os
   

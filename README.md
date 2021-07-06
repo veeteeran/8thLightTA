@@ -1,4 +1,4 @@
-# 8th Light Technical Assessment
+# Reading List
 
 ## What is this project?
 This a command line application that allows you to search for books and construct a reading list. The application must be run on Python version 3.6 or newer.

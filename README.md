@@ -24,7 +24,7 @@ This a command line application that allows you to search for books and construc
   ./reading_list.py
   ```
 
-* You should see a welcome prompt with instructions
+* You should see a welcome prompt with instructions  
 ![Screen Shot 2021-10-10 at 6 29 22 PM](https://user-images.githubusercontent.com/14856004/136716362-8200a8bb-4591-4132-866a-00f8f6b6c971.png)
 
 

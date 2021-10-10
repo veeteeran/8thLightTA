@@ -31,7 +31,7 @@ class Books:
       Prints search results to the console
   """
 
-  books = []
+  __books = []
 
   def get_books(self, search_terms):
     """
@@ -47,11 +47,14 @@ class Books:
       List of five dictionary items and prints to screen
       author, title, and publisher
     """
+    if self.__books != []:
+      self.__books = []
+      
     if search_terms:
       response = self.call_api(search_terms)
       self.show_search_results(response)
 
-    return self.books
+    return self.__books
 
   def call_api(self, search_terms):
     """
@@ -134,5 +137,5 @@ class Books:
         'publisher': volume_info.get('publisher')
       }
 
-      self.books.append(my_dict)
+      self.__books.append(my_dict)
     
